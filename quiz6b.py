@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import signal
-from math import log10
+from math import log10, sqrt
 
 ############ PARAMETERS ##############
 print()
@@ -27,12 +27,13 @@ F = (  ( (p1+p2)**2 / (4*p1*p2) )  -1) / A
 ##### 3 Loop Gain
 T = A*F
 ##### 4 DC Closed Loop Gain
-To = 20*log10( A/(1+T) )
+To_mag = A/(1+T)
+To = 20*log10( To_mag )
 ##### 5 Absolute Frequency of Coincident Poles
 # just the average of the two poles
-wcl = (p1+p2)/2
+wcl = abs((p1+p2)/2)
 ##### 6
-closedLoopBW = wcl * (1 + T)
+closedLoopBW = wcl * sqrt(To_mag / pow(10, (To-3)/20) - 1)
 
 
 ####################################
